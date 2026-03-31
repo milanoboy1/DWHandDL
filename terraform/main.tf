@@ -61,7 +61,7 @@ resource "aws_lambda_function" "ingestor" {
     variables = {
       BRONZE_BUCKET         = var.bronze_bucket_name
       SILVER_BUCKET         = var.silver_bucket_name
-      AVIATIONSTACK_API_KEY = var.aviationstack_api_key
+      AIRLABS_API_KEY       = var.airlabs_api_key
     }
   }
 
@@ -105,15 +105,17 @@ resource "aws_scheduler_schedule" "ingestor" {
 #  role_arn = var.lab_role_arn               # ← LabRole
 #}
 
+# ─── Secrets Manager ─────────────────────────────────
 
-# ─── Secrets Manager ─────────────────────────────────────────────────────
-
-resource "aws_secretsmanager_secret" "aviationstack_api_key" {
-  name        = "airoinsights-aviationstack-api-key"
-  description = "Aviationstack API Key for AeroInsights project"
+resource "aws_secretsmanager_secret" "airlabs_api_key" {
+  name        = "airoinsights-airlabs-api-key"
+  description = "AirLabs API Key for AeroInsights project"
 }
 
-resource "aws_secretsmanager_secret_version" "aviationstack_api_key" {
-  secret_id     = aws_secretsmanager_secret.aviationstack_api_key.id
-  secret_string = var.aviationstack_api_key
+resource "aws_secretsmanager_secret_version" "airlabs_api_key_version" {
+  secret_id     = aws_secretsmanager_secret.airlabs_api_key.id
+  secret_string = var.airlabs_api_key
 }
+
+
+

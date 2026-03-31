@@ -9,19 +9,23 @@
         "FunctionName": "${lambda_arn}",
         "Payload": {
           "fetch_flights": true,
-          "max_pages": 3,
+          "use_mock": false,
           "locations": [
-            {"name": "zurich",    "lat": 47.3769, "lon":  8.5417},
-            {"name": "frankfurt", "lat": 50.1109, "lon":  8.6821},
-            {"name": "london",    "lat": 51.5072, "lon": -0.1276},
-            {"name": "paris",     "lat": 48.8566, "lon":  2.3522}
+            {"name": "zurich",    "iata": "ZRH", "lat": 47.3769, "lon":  8.5417},
+            {"name": "frankfurt", "iata": "FRA", "lat": 50.1109, "lon":  8.6821},
+            {"name": "london",    "iata": "LHR", "lat": 51.5072, "lon": -0.1276},
+            {"name": "paris",     "iata": "CDG", "lat": 48.8566, "lon":  2.3522}
           ]
         }
+      },
+      "ResultSelector": {
+        "status.$": "$.Payload.status",
+        "saved.$": "$.Payload.saved"
       },
       "ResultPath": "$.result",
       "Retry": [
         {
-          "ErrorEquals": ["States.TaskFailed"],
+          "ErrorEquals": ["Lambda.ServiceException", "Lambda.AWSLambdaException", "Lambda.SdkClientException", "Lambda.TooManyRequestsException"],
           "IntervalSeconds": 10,
           "MaxAttempts": 2,
           "BackoffRate": 2.0
@@ -34,7 +38,10 @@
           "ResultPath": "$.error"
         }
       ],
-      "End": true
+      "Next": "IngestionSucceeded"
+    },
+    "IngestionSucceeded": {
+      "Type": "Succeed"
     },
     "IngestionFailed": {
       "Type": "Fail",

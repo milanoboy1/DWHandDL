@@ -10,8 +10,8 @@ variable "silver_bucket_name" {
   default = "airoinsights-silver"
 }
 
-variable "aviationstack_api_key" {
-  description = "AviationStack API key"
+variable "airlabs_api_key" {
+  description = "AirLabs API key"
   sensitive   = true
 }
 
