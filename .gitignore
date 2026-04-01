@@ -1,0 +1,6 @@
+*.zip
+layer
+.terraform
+*.lock.hcl
+*.tfstate*
+.env
