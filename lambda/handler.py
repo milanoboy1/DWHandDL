@@ -35,7 +35,7 @@ def upload_to_s3(bucket, key, data):
     s3.put_object(
         Bucket=bucket,
         Key=key,
-        Body=json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8"),
+        Body=json.dumps(data, ensure_ascii=False).encode("utf-8"),
         ContentType="application/json",
     )
     print(f"Saved: s3://{bucket}/{key}")
