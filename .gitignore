@@ -4,3 +4,14 @@ layer
 *.lock.hcl
 *.tfstate*
 .env
+
+# Terraform sensitive values and local artifacts
+terraform/terraform.tfvars
+terraform/tfplan
+terraform/trust.json
+
+# Python tooling
+.python-version
+uv.lock
+__pycache__/
+.venv/
